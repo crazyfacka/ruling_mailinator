@@ -1,10 +1,7 @@
 """Configuration handler"""
-import json
-import os
+from lib.common import load_confs
 
-__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
-with open(f'{__location__}/confs.json') as f:
-    loaded_confs = json.load(f)
+loaded_confs = load_confs("configuration")
 
 IMAP_SERVER = loaded_confs["email"]["imap"]["server"]
 IMAP_PORT = loaded_confs["email"]["imap"]["port"]

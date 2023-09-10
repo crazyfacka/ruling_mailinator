@@ -1,5 +1,5 @@
 # Project specific files
-confs.json
+configuration.json
 rules.json
 
 # Byte-compiled / optimized / DLL files

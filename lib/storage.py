@@ -1,6 +1,6 @@
+from datetime import date
 import psycopg2
 from psycopg2 import Error
-from datetime import date
 
 from confs import *
 
@@ -37,7 +37,7 @@ class Storage:
 
     def get_last_check_date(self):
         """Retrieves the last checked date from the DB"""
-        query = "SELECT last_date FROM last_date WHERE id = 0"
+        query = "SELECT last_date FROM last_date WHERE id=0"
         self.cursor.execute(query)
         rows = self.cursor.fetchall()
 
@@ -54,6 +54,23 @@ class Storage:
         query = """INSERT INTO last_date (id, last_date) VALUES (%s, %s)
             ON CONFLICT (id) DO UPDATE SET last_date=%s WHERE last_date.id=%s"""
         self.cursor.execute(query, (0, new_date, new_date, 0))
+        self.connection.commit()
+
+    def validate_message_id(self, message_id):
+        """Checks if message ID has been already processed"""
+        query = "SELECT COUNT(*) FROM parsed_messages WHERE message_id=%s"
+        self.cursor.execute(query, (message_id,))
+        row = self.cursor.fetchone()
+
+        if row[0] == 0:
+            return False
+        return True
+
+    def set_message_validated(self, message_id):
+        """Stores the message ID as validated"""
+        query = """INSERT INTO parsed_messages (message_id, message_date)
+            VALUES (%s, NOW())"""
+        self.cursor.execute(query, (message_id,))
         self.connection.commit()
 
     def close(self):
