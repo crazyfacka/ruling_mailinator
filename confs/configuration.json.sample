@@ -11,7 +11,9 @@
         },
     
         "username": "spam@example.com",
-        "password": "too_complex_password_to_remember"
+        "password": "too_complex_password_to_remember",
+
+        "from": "rm@example.com"
     },
     
     "db": {
