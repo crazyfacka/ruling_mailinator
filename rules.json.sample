@@ -1,0 +1,6 @@
+[
+    {
+        "search": "FROM @example.pt",
+        "action": "FORWARD spam@example.pt"
+    }
+]

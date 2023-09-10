@@ -1,0 +1,23 @@
+{
+    "email": {
+        "imap": {
+            "server": "example.com",
+            "port": 1143
+        },
+    
+        "smtp": {
+            "server": "example.com",
+            "port": 1025
+        },
+    
+        "username": "spam@example.com",
+        "password": "too_complex_password_to_remember"
+    },
+    
+    "db": {
+        "host": "127.0.0.1",
+        "database": "mailinator",
+        "user": "postgres",
+        "password": "mysecretpassword"
+    }
+}
