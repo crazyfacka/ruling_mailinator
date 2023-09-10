@@ -5,7 +5,7 @@ COPY requirements.txt /app
 
 RUN pip install -r requirements.txt
 
-COPY main.py rules.py confs.py /app
+COPY main.py rules.py confs.py /app/
 COPY lib /app/lib
 
 ENTRYPOINT ["python", "main.py"]
