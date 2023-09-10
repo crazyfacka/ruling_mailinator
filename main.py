@@ -1,7 +1,7 @@
 """Where all the magic happens"""
 
 import argparse
-from datetime import datetime
+from datetime import datetime, timedelta
 import sys
 
 from lib.storage import Storage
@@ -49,6 +49,9 @@ for rule in RULES:
                 send_mail(match.msg, actions[1])
                 state.set_message_validated(match.message_id)
                 processed_messages += 1
+
+new_last_check = datetime.today() - timedelta(days=1)
+state.set_last_check_date(new_last_check)
 
 print("Number of processed messages:", processed_messages)
 
