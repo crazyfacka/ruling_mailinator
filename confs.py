@@ -1,4 +1,5 @@
 """Configuration handler"""
+
 from lib.common import load_confs
 
 loaded_confs = load_confs("configuration")

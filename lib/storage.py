@@ -1,3 +1,5 @@
+"""Backend state handler"""
+
 from datetime import date
 import psycopg2
 from psycopg2 import Error
@@ -5,6 +7,7 @@ from psycopg2 import Error
 from confs import *
 
 class Storage:
+    """Class to handle state"""
     def __init__(self):
         db_params = {
             'host': DB_HOST,

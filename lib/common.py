@@ -1,4 +1,5 @@
 """Commons library"""
+
 import json
 import os
 

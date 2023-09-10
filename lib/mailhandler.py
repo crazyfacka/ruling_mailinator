@@ -1,24 +1,29 @@
+"""IMAP Mail handler"""
+
 import imaplib
 from email.parser import BytesParser
 
 from confs import *
 
 class Mail:
+    """Class to represent mail information"""
     def __init__(self, message_id, msg):
         self.message_id = message_id
         self.msg = msg
 
 class MailHandler:
+    """Class to handle IMAP email interaction"""
     def __init__(self):
         self.imap = imaplib.IMAP4_SSL(IMAP_SERVER, IMAP_PORT)
         self.imap.login(USERNAME, PASSWORD)
 
         mailbox = '"All Mail"'
         self.imap.select(mailbox, False)
-    
+
     def get_matches(self, search, since):
         """Search for emails in the mailbox (you can specify search criteria)"""
-        search_criteria = f"{search} SINCE {since.strftime('%d-%b-%Y')}"  # IMAP Search format (https://www.rfc-editor.org/rfc/rfc3501#section-6.4.4)
+        # IMAP Search format (https://www.rfc-editor.org/rfc/rfc3501#section-6.4.4)
+        search_criteria = f"{search} SINCE {since.strftime('%d-%b-%Y')}"
         status, message_ids = self.imap.search(None, search_criteria)
 
         matches = []
@@ -29,8 +34,9 @@ class MailHandler:
             if status == "OK":
                 email_message = BytesParser().parsebytes(msg_data[0][1])
                 matches.append(Mail(message_id.decode("utf-8"), email_message))
-        
+
         return matches
 
     def close(self):
+        """Closing the IMAP connection"""
         self.imap.close()

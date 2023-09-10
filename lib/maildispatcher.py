@@ -1,3 +1,5 @@
+"""SMTP Mail handler"""
+
 import smtplib
 from email.mime.multipart import MIMEMultipart
 
