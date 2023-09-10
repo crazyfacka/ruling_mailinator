@@ -13,7 +13,7 @@ parser = argparse.ArgumentParser(
     description='Given some rules, parses an IMAP inbox, storing state in a PSQL DB and performs some actions',
     epilog='CFK ♡ 2023')
 
-parser.add_argument('--set-since', help='Will set a new SINCE filter date and exit (Format: DD-MM-YYYY)')
+parser.add_argument('--set-since', help='Will set a new SINCE filter date and exit (Format: YYYY-MM-DD)')
 args = parser.parse_args()
 
 # Connect to backend storage
