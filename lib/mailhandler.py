@@ -7,8 +7,9 @@ from confs import *
 
 class Mail:
     """Class to represent mail information"""
-    def __init__(self, message_id, msg):
+    def __init__(self, message_id, sent_date, msg):
         self.message_id = message_id
+        self.sent_date = sent_date
         self.msg = msg
 
 class MailHandler:
@@ -33,7 +34,9 @@ class MailHandler:
             status, msg_data = self.imap.fetch(message_id, "(RFC822)")
             if status == "OK":
                 email_message = BytesParser().parsebytes(msg_data[0][1])
-                matches.append(Mail(message_id.decode("utf-8"), email_message))
+                matches.append(Mail(email_message["Message-Id"],
+                                    email_message["Date"],
+                                    email_message))
 
         return matches
 

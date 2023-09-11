@@ -30,8 +30,8 @@ class Storage:
         )"""
 
         parsed_messages_table = """CREATE TABLE IF NOT EXISTS parsed_messages (
-            message_id bigint UNIQUE,
-            message_date timestamptz NOT NULL
+            message_date timestamptz NOT NULL,
+            message_id text UNIQUE
         )"""
 
         self.cursor.execute(last_date_table)
@@ -59,21 +59,21 @@ class Storage:
         self.cursor.execute(query, (0, new_date, new_date, 0))
         self.connection.commit()
 
-    def validate_message_id(self, message_id):
+    def validate_message_id(self, message_id, sent_date):
         """Checks if message ID has been already processed"""
-        query = "SELECT COUNT(*) FROM parsed_messages WHERE message_id=%s"
-        self.cursor.execute(query, (message_id,))
+        query = "SELECT COUNT(*) FROM parsed_messages WHERE message_date=%s AND message_id=%s"
+        self.cursor.execute(query, (sent_date, message_id))
         row = self.cursor.fetchone()
 
         if row[0] == 0:
             return False
         return True
 
-    def set_message_validated(self, message_id):
+    def set_message_validated(self, message_id, sent_date):
         """Stores the message ID as validated"""
-        query = """INSERT INTO parsed_messages (message_id, message_date)
-            VALUES (%s, NOW())"""
-        self.cursor.execute(query, (message_id,))
+        query = """INSERT INTO parsed_messages (message_date, message_id)
+            VALUES (%s, %s)"""
+        self.cursor.execute(query, (sent_date, message_id))
         self.connection.commit()
 
     def close(self):

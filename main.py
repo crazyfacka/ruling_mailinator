@@ -44,10 +44,10 @@ for rule in RULES:
 
     if actions[0] == "FORWARD":
         for match in matches:
-            processed = state.validate_message_id(match.message_id)
+            processed = state.validate_message_id(match.message_id, match.sent_date)
             if not processed:
                 send_mail(match.msg, actions[1])
-                state.set_message_validated(match.message_id)
+                state.set_message_validated(match.message_id, match.sent_date)
                 processed_messages += 1
 
 new_last_check = datetime.today() - timedelta(days=1)
