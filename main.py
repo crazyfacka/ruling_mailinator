@@ -29,6 +29,7 @@ def run_logic(lock = None):
     if lock is not None:
         lock.acquire()
 
+    print(f"[{datetime.today()}] Fetching messages...")
     last_check = state.get_last_check_date()
 
     processed_messages = 0
@@ -49,7 +50,8 @@ def run_logic(lock = None):
     state.set_last_check_date(new_last_check)
     mh.close()
 
-    print(f"[{datetime.today()}] Number of processed messages: {processed_messages}")
+    if processed_messages > 0:
+        print(f"[{datetime.today()}] Number of processed messages: {processed_messages}")
 
     if lock is not None:
         lock.release()
@@ -95,8 +97,14 @@ else:
     print(f"Ruling Mailinator: Executing every {args.minutes} minutes...")
     signal.signal(signal.SIGINT, signal_handler)
     signal.signal(signal.SIGTERM, signal_handler)
+
+    t = Thread(target=run_logic, args=(lock,))
+    t.start()
     while True:
+        time.sleep(60 * args.minutes)
+        if t.is_alive():
+            print("Thread is still alive, sleeping again...")
+            continue
+
         t = Thread(target=run_logic, args=(lock,))
         t.start()
-        t.join()
-        time.sleep(60 * args.minutes)
