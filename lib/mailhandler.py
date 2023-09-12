@@ -43,3 +43,4 @@ class MailHandler:
     def close(self):
         """Closing the IMAP connection"""
         self.imap.close()
+        self.imap.logout()
