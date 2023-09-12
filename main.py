@@ -12,7 +12,6 @@ from lib.mailhandler import MailHandler
 from lib.maildispatcher import send_mail
 from rules import RULES
 
-mh = None
 lock = Lock()
 
 def signal_handler(signo, _frame):
@@ -21,17 +20,11 @@ def signal_handler(signo, _frame):
     if lock.acquire(timeout=15) is False:
         print("Timeout. Forcing termination.")
 
-    close()
-    sys.exit(0)
-
-def close():
-    """Neatly closing it all"""
-    mh.close()
     state.close()
+    sys.exit(0)
 
 def run_logic(lock = None):
     """Main application logic"""
-    global mh
 
     if lock is not None:
         lock.acquire()
@@ -54,6 +47,7 @@ def run_logic(lock = None):
 
     new_last_check = datetime.today() - timedelta(days=1)
     state.set_last_check_date(new_last_check)
+    mh.close()
 
     print(f"[{datetime.today()}] Number of processed messages: {processed_messages}")
 
@@ -92,7 +86,7 @@ if args.set_since is not None:
 
 if args.minutes is None:
     run_logic()
-    close()
+    state.close()
 else:
     if args.minutes < 1 or args.minutes > 20:
         print("Invalid value for minutes. Defaulting to every 5 minutes.")
