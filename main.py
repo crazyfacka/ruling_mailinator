@@ -98,6 +98,7 @@ else:
         print("Invalid value for minutes. Defaulting to every 5 minutes.")
         args.minutes = 5
 
+    print(f"Ruling Mailinator: Executing every {args.minutes} minutes...")
     signal.signal(signal.SIGINT, signal_handler)
     signal.signal(signal.SIGTERM, signal_handler)
     while True:
