@@ -19,7 +19,7 @@ class MailHandler:
         self.imap.login(USERNAME, PASSWORD)
 
         mailbox = '"All Mail"'
-        self.imap.select(mailbox, False)
+        self.imap.select(mailbox, True)
 
     def get_matches(self, search, since):
         """Search for emails in the mailbox (you can specify search criteria)"""
