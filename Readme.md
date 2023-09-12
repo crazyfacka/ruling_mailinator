@@ -5,7 +5,7 @@ Application that connects to an IMAP server, and given some rules, applies some 
 The supported rules are the ones present/described on [IMAP RFC3501](https://www.rfc-editor.org/rfc/rfc3501#section-6.4.4).<br>
 Currently the only available action is to **forward** the e-mail.
 
-The application is designed to be executed in a cronjob.
+The application is designed to be executed either in a cronjob, or on a long running process.
 
 ## Configuration
 
