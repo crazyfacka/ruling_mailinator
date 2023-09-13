@@ -43,6 +43,7 @@ def run_logic(lock = None):
                 processed = state.validate_message_id(match.message_id, match.sent_date)
                 if not processed:
                     send_mail(match.msg, actions[1])
+                    mh.set_unseen(match.imap_message_id)
                     state.set_message_validated(match.message_id, match.sent_date)
                     processed_messages += 1
 
