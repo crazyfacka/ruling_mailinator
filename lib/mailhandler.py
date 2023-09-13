@@ -32,7 +32,7 @@ class MailHandler:
 
         message_id_list = message_ids[0].split()
         for message_id in message_id_list:
-            status, msg_data = self.imap.fetch(message_id, "(RFC822)")
+            status, msg_data = self.imap.fetch(message_id, "(BODY.PEEK[])")
             if status == "OK":
                 email_message = BytesParser().parsebytes(msg_data[0][1])
                 matches.append(Mail(message_id,
@@ -41,10 +41,6 @@ class MailHandler:
                                     email_message))
 
         return matches
-
-    def set_unseen(self, message_id):
-        """Removes the seen flag from the message"""
-        self.imap.store(message_id, '-FLAGS', '\\Seen')
 
     def close(self):
         """Closing the IMAP connection"""
