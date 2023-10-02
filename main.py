@@ -108,6 +108,7 @@ else:
             thread_alive_count += 1
             if thread_alive_count >= 5:
                 print("Thread probably has zombied out. Killing application...")
+                state.close()
                 sys.exit(-1)
 
             print("Thread is still alive, sleeping again...")
