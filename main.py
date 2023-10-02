@@ -98,13 +98,21 @@ else:
     signal.signal(signal.SIGINT, signal_handler)
     signal.signal(signal.SIGTERM, signal_handler)
 
+    thread_alive_count = 0
+
     t = Thread(target=run_logic, args=(lock,))
     t.start()
     while True:
         time.sleep(60 * args.minutes)
         if t.is_alive():
+            thread_alive_count += 1
+            if thread_alive_count >= 5:
+                print("Thread probably has zombied out. Killing application...")
+                sys.exit(-1)
+
             print("Thread is still alive, sleeping again...")
             continue
 
+        thread_alive_count = 0
         t = Thread(target=run_logic, args=(lock,))
         t.start()
