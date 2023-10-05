@@ -4,6 +4,7 @@ import argparse
 from datetime import datetime, timedelta
 import time
 from threading import Thread, Lock
+import os
 import signal
 import sys
 
@@ -109,7 +110,7 @@ else:
             if thread_alive_count >= 5:
                 print("Thread probably has zombied out. Killing application...")
                 state.close()
-                sys.exit(-1)
+                os._exit(-1)
 
             print("Thread is still alive, sleeping again...")
             continue
