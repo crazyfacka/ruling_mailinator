@@ -19,7 +19,14 @@ def send_mail(msg, dest):
 
     # Send the forwarded email
     try:
-        smtp = smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT)
+        if SECURITY == "ssl":
+            smtp = smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT)
+        elif SECURITY == "starttls":
+            smtp = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
+            smtp.starttls()
+        else:
+            raise ValueError("Invalid security configuration: should be either 'ssl' or 'starttls'")
+
         smtp.login(USERNAME, PASSWORD)
         smtp.sendmail(USERNAME, dest, forward_msg.as_string())
         smtp.quit()

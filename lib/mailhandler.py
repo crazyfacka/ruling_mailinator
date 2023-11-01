@@ -16,7 +16,14 @@ class Mail:
 class MailHandler:
     """Class to handle IMAP email interaction"""
     def __init__(self):
-        self.imap = imaplib.IMAP4_SSL(IMAP_SERVER, IMAP_PORT)
+        if SECURITY == "ssl":
+            self.imap = imaplib.IMAP4_SSL(IMAP_SERVER, IMAP_PORT)
+        elif SECURITY == "starttls":
+            self.imap = imaplib.IMAP4(IMAP_SERVER, IMAP_PORT)
+            self.imap.starttls()
+        else:
+            raise ValueError("Invalid security configuration: should be either 'ssl' or 'starttls'")
+
         self.imap.login(USERNAME, PASSWORD)
 
         mailbox = '"All Mail"'

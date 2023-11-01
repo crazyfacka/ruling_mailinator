@@ -10,6 +10,8 @@ IMAP_PORT = loaded_confs["email"]["imap"]["port"]
 SMTP_SERVER = loaded_confs["email"]["smtp"]["server"]
 SMTP_PORT = loaded_confs["email"]["smtp"]["port"]
 
+SECURITY = loaded_confs["email"]["security"]
+
 USERNAME = loaded_confs["email"]["username"]
 PASSWORD = loaded_confs["email"]["password"]
 
